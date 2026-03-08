@@ -1,0 +1,225 @@
+<!--  
+  
+  HTML/AttitudeControl_Control.html
+  Autor: Claudio Arzamendia
+  Fecha: 2026-02-15 03:32:06
+
+  Este HTML es para el control de actitud (pitch y roll) mediante un joystick virtual. 
+  El código JavaScript para manejar la lógica del joystick se encuentra en functions_Attitude.js.
+
+
+  Tamaño de la caja de control para Attitude Control: 120px x 240px
+
+                     +---------------------------+
+                     |    Pitch & Roll Control   |
+                     +---------------------------+
+                     |        { Zero Off }       |
+                     +---------------------------+
+                     |         ---------         |
+                     |      --          --       |
+                     |     |              |      |
+                     |     |       O      |      |
+                     |     |              |      |
+                     |      --          --       |
+                     |         ---------         |
+                     +------------+--------------+
+                     |  Pitch:    |      Roll:   |
+                     |   0.0°     |      0.0°    |
+                     |    ▲       |       ▲      |
+                     |            |              |
+                     |    ▼       |       ▼      |
+                     +------------+--------------+
+
+-->
+
+<div class="attitude-control-box">
+  <div class="atti-title">Pitch & Roll</div>
+  <button class="atti-zero-btn" id="atti-zero-btn">Zero: OFF</button>
+  <div class="joystick-container" id="joystick">
+    <div class="joystick-base"></div>
+    <!-- SVG para el brazo del joystick -->
+    <svg id="joystick-arm" width="80" height="80" style="position:absolute;top:0;left:0;pointer-events:none;z-index:1;">
+      <defs>
+        <linearGradient id="chrome-gradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#e0e0e0" />
+          <stop offset="20%" stop-color="#b0b0b0" />
+          <stop offset="40%" stop-color="#f8f8f8" />
+          <stop offset="60%" stop-color="#888" />
+          <stop offset="80%" stop-color="#f8f8f8" />
+          <stop offset="100%" stop-color="#b0b0b0" />
+        </linearGradient>
+      </defs>
+      <line id="joystick-arm-line" x1="40" y1="40" x2="40" y2="40" stroke="url(#chrome-gradient)" stroke-width="5" stroke-linecap="round" />
+    </svg>
+    <div class="joystick-knob" id="knob"></div>
+  </div>
+  
+  <!-- Sección de botones Pitch y Roll según diagrama -->
+  <div class="atti-buttons-grid">
+    <div class="atti-col">
+      <span class="atti-label">Pitch:</span>
+      <span class="atti-value" id="pitch-value">0.0°</span>
+      <button class="atti-arrow-btn" id="pitch-up-btn">▲</button>
+      <button class="atti-arrow-btn" id="pitch-down-btn">▼</button>
+    </div>
+    <div class="atti-col">
+      <span class="atti-label">Roll:</span>
+      <span class="atti-value" id="roll-value">0.0°</span>
+      <button class="atti-arrow-btn" id="roll-up-btn">▲</button>
+      <button class="atti-arrow-btn" id="roll-down-btn">▼</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .attitude-control-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    height: 240px;
+    background: #1a1a2e;
+    border: 2px solid #444;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  .atti-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .atti-zero-btn {
+    height: 24px;
+    width: 90px;
+    margin-bottom: 8px;  
+    font-size: 10px;
+    padding: 4px 8px;
+    background: #444;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .joystick-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    user-select: none;
+    touch-action: none;
+    display: block;
+  }
+
+  .joystick-base {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, #0d420c 0%, #090b2f 100%);
+    border: 3px solid #888;
+    box-shadow: 0 0 8px #000a;
+    box-sizing: border-box;
+  }
+
+  .joystick-knob {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 40px;
+    top: 40px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: radial-gradient(circle at 65% 35%, #fff 0%, #be1111 40%, #7a0707 100%);
+    border: 2px solid #2196f3;
+    box-shadow: 0 0 6px #2196f388;
+    cursor: grab;
+    transition: box-shadow 0.2s;
+    z-index: 2;
+    touch-action: none;
+    transform: translate(-50%, -50%);
+  }
+
+  .joystick-knob:active {
+    box-shadow: 0 0 12px #2196f3cc;
+    cursor: grabbing;
+  }
+
+  .atti-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .atti-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .atti-label {
+    font-size: 9px;
+    color: #aaa;
+  }
+
+  .atti-value {
+    font-size: 10px;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .atti-arrow-btn {
+    width: 36px;
+    height: 20px;
+    font-size: 12px;
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .atti-arrow-btn:hover {
+    background: #555;
+  }
+
+  .atti-arrow-btn:active {
+    background: #2196f3;
+  }
+
+  /* Estados deshabilitados (frenos ON) */
+  .attitude-control-box.is-brake-on {
+    opacity: 0.6;
+  }
+  .attitude-control-box.is-brake-on .joystick-knob {
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .attitude-control-box.is-brake-on .atti-zero-btn,
+  .attitude-control-box.is-brake-on .atti-arrow-btn {
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+    box-shadow: none;
+  }
+  .attitude-control-box.is-brake-on .atti-zero-btn:hover,
+  .attitude-control-box.is-brake-on .atti-arrow-btn:hover {
+    background: #333;
+  }
+</style>
+
+<!-- Script eliminado: toda la lógica del joystick está en functions_Attitude.js -->
+
+
+
+
+

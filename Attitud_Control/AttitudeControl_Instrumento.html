@@ -1,0 +1,66 @@
+<!-- 
+
+  HTML para el instrumento Attitude Control.
+  Autor: Claudio Arzamendia
+  Fecha: 2026-02-15 03:22:18
+    Este programa solo muestra el instrumento Attitude Control con su fondo, dial, bola y tapa.
+    No tiene funcionalidad de movimiento de la bola ni recepción de datos a través de WebSocket.
+
+
+
+-->
+
+<div class="instrumento-grid" onclick="toggleAttitudeBrokenCrystal()">
+    <!-- Ball -->
+    <img class="att-ball" id="AttCon_ball" src="https://claudio-arz.github.io/AeroDeck-HTML/Images/AttitudeControl/AttCon_ball.png"
+    alt="Ball Attitude">
+    <!-- Dial -->
+    <img class="att-dial" id="AttCon_dial" src="https://claudio-arz.github.io/AeroDeck-HTML/Images/AttitudeControl/AttCon_dial.png" 
+    alt="Dial Attitude">
+    <!-- Front -->
+    <img class="att-front" id="AttCon_front" src="https://claudio-arz.github.io/AeroDeck-HTML/Images/AttitudeControl/AttCon_front.png" 
+    alt="Front">
+    <img class="brokenCrystal12" id="attitude_broken_crystal12" src="https://claudio-arz.github.io/AeroDeck-HTML/Images/Crystals/BrokenCrystal12.png" 
+    alt="Broken Crystal Attitude">    
+</div>
+
+<style>
+.att-ball {
+  width: 163%;
+  height: 163%;
+  position:absolute;
+  top:-31.56%;
+  left:-31.56%;
+  z-index:2;
+  pointer-events:none;
+  object-fit: contain;  
+  border-radius: 392px;
+  /* El centro del instrumento está a 50% del contenedor padre.
+     Desde la ball (163%, offset -31.56%), eso es aproximadamente 50% de la ball */
+  transform-origin: 50% 50%;
+}
+
+.att-dial {
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  top:0;
+  left:0%;
+  z-index:3;
+  pointer-events:none;
+  border-radius: 50%;
+  transform-origin: center center;
+}
+
+.att-front {
+  width:81.25%;
+  height:89.58%;
+  position:absolute;
+  top:10.42%;
+  left:9.375%;
+  z-index:5;
+  pointer-events:none;
+}
+
+
+</style>
