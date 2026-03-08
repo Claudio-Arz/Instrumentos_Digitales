@@ -1,0 +1,302 @@
+
+/*
+mainHTML.css
+Estilos CSS para el tablero de instrumentos AeroDeck
+Claudio Arzamendia Systems
+Tablero completo con intrumental aeronáutico
+para ajustar instrumentos analógicos.
+
+2026-01-24 20:06:19
+Este es un buen punto de partida para los estilos CSS.
+Se han añadido estilos específicos para el botón Noice
+y para el variometro con aguja como imagen.
+Se han corregido algunos detalles de estilo para mejorar
+la apariencia general del tablero.
+
+Tiene que incluir una detallada documentación de los estilos
+y las clases utilizadas. Incluyendo en que archivos HTML se usan.
+
+
+*/
+
+
+/* === Estado activo para el botón Noice === 
+
+Cambia el fondo, color, borde y sombra cuando está activo
+para indicar visualmente su estado.
+
+
+*/
+/* #noice-btn.active {
+  background: rgb(26, 176, 166) !important;
+  color: #222 !important;
+  border: 2px solid #1ab0a6 !important;
+  box-shadow: 0 0 10px #1ab0a6, 0 0 2px #222;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+#noice-btn {
+  background: #071037;
+  color: #fff;
+  border: 2px solid #071037;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+} */
+/* === Estilo para logo de Claudio Arzamendia Systems === */
+.logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.logo {
+  display: block;
+  width: 350px;
+  height: 27px;
+  filter: drop-shadow(0 0 4px #fecfcf);
+}
+
+.color-slider-input {
+  width: 600px;
+  height: 27px;
+  cursor: pointer;
+  accent-color: #79abf2;
+  background: linear-gradient(to right, 
+    hsl(0, 60%, 70%),
+    hsl(60, 60%, 70%),
+    hsl(120, 60%, 70%),
+    hsl(180, 60%, 70%),
+    hsl(240, 60%, 70%),
+    hsl(300, 60%, 70%),
+    hsl(360, 60%, 70%)
+  );
+  border-radius: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.color-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 27px;
+  background: #fff;
+  border-radius: 4px;
+  border: 2px solid #333;
+  cursor: pointer;
+}
+
+
+/* === Estilos de Broken Crystal para instrumentos === */
+.brokenCrystal01, .brokenCrystal02, .brokenCrystal03, 
+.brokenCrystal04, .brokenCrystal05, .brokenCrystal06, .brokenCrystal07, .brokenCrystal08, .brokenCrystal09, 
+ .brokenCrystal10, .brokenCrystal11, .brokenCrystal12, .brokenCrystal13, .brokenCrystal14, .brokenCrystal15,
+ .brokenCrystal16, .brokenCrystal17, .brokenCrystal18, .brokenCrystal19, .brokenCrystal20 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* Permite hacer clic a través de la imagen */
+  z-index: 30; /* Asegura que esté por encima del instrumento */
+  opacity: 0; /* Oculto por defecto */
+  transition: opacity ;
+}
+/* === Estilo de Broken Crystal Fire para instrumentos === */
+.brokenCrystalFire {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* Permite hacer clic a través de la imagen */
+  z-index: 30; /* Asegura que esté por encima del instrumento */
+  opacity: 0; /* Oculto por defecto */
+  transition: opacity ;
+}
+
+/* Clase para mostrar el cristal roto al hacer click */
+.brokenCrystalFire.visible {
+  opacity: 1;
+}
+
+/* Clase para mostrar el cristal roto al hacer click */
+.brokenCrystal01.visible, .brokenCrystal02.visible, .brokenCrystal03.visible,
+.brokenCrystal04.visible, .brokenCrystal05.visible, .brokenCrystal06.visible, .brokenCrystal07.visible, .brokenCrystal08.visible, .brokenCrystal09.visible,
+.brokenCrystal10.visible, .brokenCrystal11.visible, .brokenCrystal12.visible, .brokenCrystal13.visible, .brokenCrystal14.visible, .brokenCrystal15.visible,
+.brokenCrystal16.visible, .brokenCrystal17.visible, .brokenCrystal18.visible, .brokenCrystal19.visible, .brokenCrystal20.visible {
+  opacity: 1;
+}
+
+/* Combina grid-item y container para instrumentos individuales */
+.instrumento-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  height: 240px;
+  max-width: 240px;
+  max-height: 240px;
+  aspect-ratio: 1/1;
+  position: relative;
+  border-radius: 120px;
+  overflow: hidden;
+  box-shadow: none; /* Apagado por defecto - controlado por JavaScript al hacer click en el logo */
+  background: #1d3958;
+  border: 8px solid #1f22f0;
+  box-sizing: border-box;
+}  
+.instrument-center-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  width: 50px;
+  text-align: center;
+  z-index: 20;
+  background: rgba(8,32,50,0.85);
+  border-radius: 10px;
+  pointer-events: none;
+  color: #fff;
+  box-shadow: 0 0 8px #000;
+}
+
+.label-slider {
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+
+body {
+  background: #0a1a2f;
+  color: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  gap: 10px;
+  width: 90vw;
+  height: 90vh;
+  box-sizing: border-box;
+  padding: 1vw 1vw 1vw 1vw;
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  height: 240px;
+  box-sizing: border-box;
+}
+
+/* .slider {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  height: 240px;
+  margin: 0 auto 8px auto;
+}
+.slider input[type="range"] {
+  width: 32px;
+  height: 200px;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  margin: 0 8px;
+  display: block;
+}
+
+.slider-value {
+  text-align: center;
+  color: #fff;
+  font-size: 18px;
+  margin-top: 4px;
+}
+
+.needle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 120px solid #ffcc33;
+  transform-origin: bottom center;
+  --needle-rotation: 0deg;
+  transform: translate(-50%, -100%) rotate(var(--needle-rotation));
+  transition: transform 0.2s cubic-bezier(.4,2,.6,1);
+  filter: drop-shadow(0 0 4px #000);
+  z-index: 2;
+}
+
+.needle-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #e92084, #a20202);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px #000;
+  border: 2px solid #222;
+}
+
+
+
+
+ */
+
+/* 
+.needle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 120px solid #ffcc33;
+  transform-origin: bottom center;
+  --needle-rotation: 0deg;
+  transform: translate(-50%, -100%) rotate(var(--needle-rotation));
+  transition: transform 0.2s cubic-bezier(.4,2,.6,1);
+  filter: drop-shadow(0 0 4px #000);
+  z-index: 2;
+}
+.needle-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #e92084, #a20202);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px #000;
+  border: 2px solid #222;
+  z-index: 3;
+} */
+
+
+
